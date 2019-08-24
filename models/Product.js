@@ -8,7 +8,10 @@ module.exports = function (sequelize, DataTypes) {
 
     // Has many orders
     Product.associate = function(models) {
-        Product.hasMany()
+        Product.belongsToMany(models.Order, {
+            through: models.ProductOrder,
+            foreignKey: 'productId'
+        })
     }
 
     return Product;
