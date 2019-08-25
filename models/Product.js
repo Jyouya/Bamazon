@@ -1,7 +1,6 @@
 module.exports = function (sequelize, DataTypes) {
     const Product = sequelize.define('Product', {
         product_name: DataTypes.STRING,
-        department_name: DataTypes.STRING,
         price: DataTypes.DECIMAL(2),
         stock_quantity: DataTypes.INTEGER
     });
@@ -11,7 +10,10 @@ module.exports = function (sequelize, DataTypes) {
         Product.belongsToMany(models.Order, {
             through: models.ProductOrder,
             foreignKey: 'productId'
-        })
+        });
+        Product.belongsTo(models.Department, {
+            foreignKey: 'departmentId'
+        });
     }
 
     return Product;
