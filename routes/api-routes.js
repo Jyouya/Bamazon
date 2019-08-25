@@ -18,12 +18,12 @@ module.exports = function (app) {
         const search = req.query.q; // Boolish we're searching
         const options = {
             n: req.query.n || 20,
-            page: req.query.page || 1,
-            query: req.query.q,
-            department: req.query.department, // accept ID or Name, convert to name here
+            page: req.query.page || req.query.p || 1,
+            query: req.query.q || req.query.query,
+            department: req.query.department || req.query.dpt, // accept ID or Name, convert to name here
             sort: {
                 direction: (req.query.sortDirection && req.query.sortDirection.toLowerCase()) === 'asc' ? 'ASC' : 'DESC',
-                type: req.query.sortType || 'popularity'
+                type: req.query.sortBy || 'popularity'
             }
         }
 
