@@ -16,6 +16,8 @@
 
 * sortBy - [popularity | id | name] how to sort results
 
+* n - number of results to show.  Default 20, Max 50
+
 #### POST
 
 Posting a new product requires authentication. 
@@ -28,6 +30,36 @@ Posting a new product requires authentication.
     "price": number,
     "stock": number,
 }
+```
+
+#### PUT
+
+```json
+{
+    "username": string,
+    "password": string,
+    "id": optional number,
+    "stock": optional number,
+    "department": optional number
+}
+```
+
+## /api/orders
+
+#### POST
+
+```json
+[
+    {
+        "id": productId,
+        "quantity": number
+    },
+    {
+        "id": productId,
+        "quantity": number
+    }
+    ...
+]   
 ```
 
 ## /api/users

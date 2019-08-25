@@ -9,15 +9,11 @@ const randomBytesP = promisify(crypto.randomBytes);
 
 
 module.exports = function (app) {
-    // Endpoint lets you:
-    // - search
-    // - get all products
-
     app.get('/api/products', async function (req, res) {
         console.log(req.query);
         const search = req.query.q; // Boolish we're searching
         const options = {
-            n: req.query.n || 20,
+            n: Math.min(Math.max(req.query.n || 20, 1), 50),
             page: req.query.page || req.query.p || 1,
             query: req.query.q || req.query.query,
             department: req.query.department || req.query.dpt, // accept ID or Name, convert to name here
@@ -43,7 +39,7 @@ module.exports = function (app) {
                 SELECT products.product_name AS name, price, products.id, departments.department_name AS department, departments.id as department_id
                     FROM popularity
                     RIGHT JOIN products
-                        ON products.id = popularity.productID
+                        ON products.id = popularity.productId
                     JOIN departments
                         ON products.departmentId = departments.id
                         ${search ? `WHERE products.product_name LIKE :q
@@ -51,49 +47,19 @@ module.exports = function (app) {
                         ${options.department ? `${search ? '' : 'WHERE'} 
                             departments.department_name LIKE :department
                             OR departments.id = :departmentRaw` : ''}
-                    ORDER BY popularity ${options.sort.direction}`,
+                    ORDER BY popularity ${options.sort.direction}
+                    LIMIT :n OFFSET :p`,
             {
                 replacements: {
                     q: `%${options.query}%`,
                     department: `%${options.department}%`,
-                    departmentRaw: options.department
+                    departmentRaw: options.department,
+                    n: options.n,
+                    p: options.page - 1
                 },
                 type: db.sequelize.QueryTypes.SELECT
             });
         res.json(out);
-        // }
-
-        // let out;
-        // if (search) {
-        // out = await db.Product.findAll({
-        //     include: [
-        //         {
-        //             model: db.Order,
-        //             // as: 'popularity',
-        //             // where: {
-        //             //     createdAt: {
-        //             //         [Op.gte]: moment().subtract(7, 'days').toDate()
-        //             //     }
-        //             // },
-        //             // group: ['productId'],
-        //             // attributes: [[sequelize.fn('sum', sequelize.col('quantity')), 'popularity']]
-        //         },
-        //         {
-        //             model: db.Department,
-        //             attributes: [['id', 'departmentId'], 'department_name']
-        //         }
-        //     ],
-        //     // where: {
-        //     //     [Op.like]: `%${options.query}%`
-        //     // },
-        //     // order: [sequelize.fn('sum', sequelize.col('quantity'))],
-        // })
-        // } else {
-
-        // }
-        // res.json(out);
-
-
     });
 
     app.get('/api/products/:product', function (req, res) {
@@ -102,32 +68,41 @@ module.exports = function (app) {
 
     // Add new products
     app.post('/api/products', async function (req, res) {
-        // pull up the user
-        console.log(req.body.username);
-        user = await db.User.findOne({
-            where: {
-                username: req.body.username
-            }
-        });
+
+        const user = await authenticate(req.body.username, req.body.password);
 
         if (!user) {
-            return res.send('Username or Password is incorrect').end();
+            return res.send('Username or Password is incorrect');
         }
-        const hash = await scryptP(req.body.password, user.salt, 256);
-        console.log(hash);
-        if (hash != user.hash.toString()) {
-            return res.send('Username or Password is incorrect').end();
-        }
-
-        // res.status(200).send('Credentials accepted');
 
         res.json(await db.Product.create({
             product_name: req.body.name,
             departmentId: req.body.department,
             price: req.body.price,
             stock_quantity: req.body.stock || 0
-        }))
+        }));
 
+    });
+
+    // Restock
+    app.put('/api/products', async function (req, res) {
+        const user = authenticate(req.body.username, req.body.password);
+        if (!user) {
+            return res.send('Username or Password is incorrect')
+        }
+        res.json(await db.Product.update(
+            {
+                product_name: req.body.name,
+                departmentId: req.body.department,
+                price: req.body.price,
+                stock_quantity: req.body.stock || 0
+            },
+            {
+                where: {
+                    id: req.body.id
+                }
+            }
+        ));
     });
 
     // Create a new user
@@ -149,6 +124,80 @@ module.exports = function (app) {
             type: req.body.type || 'customer'
         });
         res.status(200).send('Account created successfuly').end();
-    })
+    });
 
+    // Place an order
+    app.post('/api/orders', async function (req, res) {
+        try {
+            const order = await Promise.all(req.body.map(async function (product) {
+                const p = await db.Product.findOne({
+                    where: {
+                        id: product.id
+                    },
+                    attributes: ['price', ['stock_quantity', 'stock']]
+                });
+                if (p.dataValues.stock < product.quantity) {
+                    throw "Insufficient Quantity"
+                }
+                return p;
+            }));
+
+            const total = order.reduce((a, b, i) => a + b.price * req.body[i].quantity, 0);
+
+            // Don't need to wait for the result of this one, although if it fails, do we want the order to go through?
+            req.body.forEach((product, i) => {
+                db.Product.update({
+                    stock_quantity: order[i].dataValues.stock - product.quantity
+                },
+                    {
+                        where: {
+                            id: product.id
+                        }
+                    }
+                )
+            });
+            // Create an order
+            const { id } = await db.Order.create({ total: total });
+
+            res.json({
+                orderId: id,
+                total: total
+            });
+
+            // Add all of our products to the order through the ProductOrder model
+            req.body.forEach(product => {
+                db.ProductOrder.create({
+                    productId: product.id,
+                    orderId: id,
+                    quantity: product.quantity
+                })
+            });
+
+        } catch (err) {
+            console.log(err);
+            res.json(err);
+        }
+    });
+
+
+}
+
+async function authenticate(username = "", password = "") {
+    const user = await db.User.findOne({
+        where: {
+            username: username
+        }
+    });
+    const salt = await randomBytesP(256);
+
+    if (!user) {
+        // Need to perform a dummy hash to make username hits and misses take the same time
+        const dummy = await scryptP(password, salt, 256).toString();
+        return false;
+    }
+    const hash = await scryptP(password, user.salt, 256);
+    if (hash != user.hash.toString()) {
+        return false;
+    }
+    return user;
 }

@@ -4,6 +4,9 @@ CREATE DATABASE bamazon;
 
 USE bamazon;
 
+SHOW TABLES;
+SELECT * FROM PRODUCTS;
+
 CREATE TABLE products (
 	product_id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	name VARCHAR(255),
@@ -24,6 +27,10 @@ CREATE TABLE sub_orders (
 	FOREIGN KEY (order_id) REFERENCES orders(order_id),
 	quantity INTEGER
 );
+
+DESCRIBE products;
+DESCRIBE orders;
+DESCRIBE productorders;
 	
 
 INSERT INTO products ( name, price, stock )
@@ -72,26 +79,28 @@ SELECT sub_orders.product_id, SUM(quantity) AS popularity
 		ON orders.order_id = sub_orders.order_id
 	JOIN products
 		ON products.product_id = sub_orders.product_id
-	WHERE orders.created_at > NOW() - INTERVAL 1 WEEK
-	GROUP BY sub_orders.product_id;
-
-
-
- -- Want to see that 9 '1's have been ordered
- -- Won't return anything with 0 orders in the last week
-WITH popularity AS (
-	SELECT sub_orders.product_id, SUM(quantity) AS popularity
-	FROM orders
-	INNER JOIN sub_orders
-		ON orders.order_id = sub_orders.order_id
-	JOIN products
-		ON products.product_id = sub_orders.product_id
-	
 	GROUP BY sub_orders.product_id
-    ORDER BY SUM(quantity) FILTER(WHERE orders.created_at > NOW() - INTERVAL 1 WEEK)
+    HAVING orders.created_at > NOW() - INTERVAL 1 WEEK
+    ORDER BY SUM(quantity) ;
+
+describe products;
+
+WITH popularity AS (
+	SELECT productorders.productId, SUM(quantity) AS popularity
+	FROM orders
+	INNER JOIN productorders
+		ON orders.id = productorders.orderId
+	JOIN products
+		ON products.id = productorders.productId
+	WHERE orders.createdAt > NOW() - INTERVAL 1 WEEK
+	GROUP BY productorders.productId
 )
-SELECT products.name, products.product_id
+SELECT products.product_name AS name, price, products.id, departments.department_name AS department, stock_quantity
 	FROM popularity
     RIGHT JOIN products
-		ON products.product_id = popularity.product_id
+		ON products.id = popularity.productId
+	JOIN departments
+		ON products.departmentId = departments.id
 	ORDER BY popularity DESC;
+    
+
