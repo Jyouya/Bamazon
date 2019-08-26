@@ -32,6 +32,7 @@ DESCRIBE products;
 DESCRIBE orders;
 DESCRIBE productorders;
 	
+select * from departments;
 
 INSERT INTO products ( name, price, stock )
 	VALUES 

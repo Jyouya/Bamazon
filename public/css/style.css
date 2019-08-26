@@ -38,8 +38,34 @@
     padding: 1.5em auto;
 }
 
+.checkout {
+    font-size: 25pt;
+    margin-right: 1em;
+    color:white;
+    text-decoration: none;
+    text-shadow: .04em .04em #aaa;
+}
+
+.checkout:hover {
+    color: #bbb;
+}
+
+#search>.field {
+    width: 100%;
+}
+
+.navbar-end {
+    min-width: 250px;
+}
+
 @media screen and (max-width: 768px) {
+    .navbar-end {
+        min-width: initial;
+    }
+    .brand>img {
+        margin-left: 0em;
+    }
     .brand::after {
-        content: none;
+        content: "";
     }
 }
