@@ -1,0 +1,43 @@
+<?xml version="1.0"?><svg width="300" height="300" xmlns="http://www.w3.org/2000/svg">
+ <title>pow</title>
+ <defs>
+  <style>
+    <!-- @import url('https://fonts.googleapis.com/css?family=Bangers&display=swap') -->
+    @font-face {
+        font-family: 'Bangers';
+        src: url(data:application/font-woff;charset=utf-8;base64,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) format('woff2');
+    }
+
+    .bam {
+        font-family: 'Bangers', sans-serif;
+        font-size: 90px;
+        fill: #fff;
+    }
+
+    .shadow {
+        fill: #aaa;
+    }
+  </style>
+ </defs>
+
+ <g>
+  <title>Layer 1</title>
+  <g id="svg_1">
+   <polygon fill="none" stroke="#fff" stroke-width="4.375" stroke-miterlimit="7" points="166.105 44.5924 134.271 118.606 101.991 83.7878 102.361 134.569 32.8343 108.893 82.9962 156.888 51.938 173.593 89.1219 186.262 35.7724 218.28 102.345 213.546 104.218 262.564 133.328 218.621 156.049 243.585 165.038 222.78 202.408 249.168 197.086 219.688 266.381 253.468 216.899 203.786 263.348 177.105 213.636 169.372 259.824 127.392 191.331 138.713 209.367 86.6349 171.177 115.961" id="svg_2"/>
+   <polygon fill="none" points="172.122 23 168.222 33.7348 171.564 113.145 179.329 107.98" id="svg_3"/>
+   <polygon fill="none" points="274.562 122.72 267.633 123.199 216.297 169.34 225.236 172.078" id="svg_4"/>
+   <polygon fill="none" points="276.667 176.642 270.743 175.311 219.854 204.916 228.021 209.48" id="svg_5"/>
+   <polygon fill="none" points="278.676 261.96 292.551 269.137 227.388 199.24 224.493 208.102" id="svg_6"/>
+   <polygon fill="none" points="292.551 269.137 262.081 253.5 200.349 222.626 201.077 231.937" id="svg_7"/>
+   <polygon fill="none" points="205.887 254.336 210.618 261.59 208.763 227.39 197.04 220.723" id="svg_8"/>
+   <polygon fill="none" points="101.464 264.11 102.532 279.161 140.49 232.248 130.497 225.457" id="svg_9"/>
+   <polygon fill="none" points="29.0765 219.254 16.7479 225.936 102.052 223.353 102.007 214.629" id="svg_10"/>
+   <polygon fill="none" points="157.21 248.535 160.148 255.262 171.564 227.714 166.058 224.034" id="svg_11"/>
+   <polygon fill="none" points="160.148 255.262 154.735 244.729 133.467 222.472 127.884 226.772" id="svg_12"/>
+   <polygon fill="none" points="210.618 261.59 207.094 253.082 167.434 226.865 161.385 231.937" id="svg_13"/>
+   <polygon fill="none" points="219.468 75.4209 214.487 79.3173 193.869 139.44 203.026 137.616" id="svg_14"/>
+  </g>
+  <text x="85px" y="210" class="bam shadow" style="font-family: 'Bangers', sans-serif;">BAM</text>
+  <text x="80px" y="205" class="bam" style="font-family: 'Bangers', sans-serif;">BAM</text>
+ </g>
+</svg>

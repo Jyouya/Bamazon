@@ -1,0 +1,45 @@
+.brand {
+    /* font-family: Helvetica, Arial, sans-serif;
+    font-weight: bold; */
+    text-decoration: none;
+    /* color: #444; */
+    font-size: 20pt;
+    padding: 1em auto;
+}
+
+.brand::after {
+    content:"azon";
+    font-family: Helvetica, Arial, sans-serif;
+    font-weight: bold;
+    text-decoration: none;
+    color: #444;
+    font-size: 20pt;
+    margin-left: -.2em;
+    text-shadow: .07em .07em #aaa;
+}
+
+.brand>img {
+    max-height: initial;
+}
+
+.brand:visited {
+    text-decoration: none;
+    color: #444;
+}
+
+.brand#text {
+    text-decoration: none;
+}
+
+.brand>img {
+    height: 4em;
+    width: 4em;
+    margin: -1.8em -.8em -1.2em auto;
+    padding: 1.5em auto;
+}
+
+@media screen and (max-width: 768px) {
+    .brand::after {
+        content: none;
+    }
+}
