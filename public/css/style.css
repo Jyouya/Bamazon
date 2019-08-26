@@ -63,7 +63,7 @@
     left: -.75em;
     top: -.3em;
     /* text-shadow: inherit -.04em -.04em */
-    color: white;
+    color: #444;
     text-shadow: .04em .04em #aaa,
                 .04em .04em .15em #aaa;
     /* -webkit-text-fill-color: hsl(171, 100%, 41%);
@@ -74,11 +74,11 @@
     /* color: hsl(171, 100%, 41%); */
 }
 
-.is-horizontal {
+.is-horizontal.card {
     margin-top: 0;
 }
 
-.is-horizontal:not(:last-child) {
+.is-horizontal.card:not(:last-child) {
     margin-bottom: 1em;
 }
 

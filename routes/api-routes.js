@@ -62,15 +62,22 @@ module.exports = function (app) {
         res.json(out);
     });
 
-    app.get('/api/products/:product', function (req, res) {
+    app.get('/api/products/:product', async function (req, res) {
         product = await db.Product.findOne({
             where: {
                 id: req.params.product
             },
-            include: [db.Department],
+            include: [
+                {
+                    model: db.Department,
+                    attributes: [['department_name','name']]
+                }
+            ],
             //SELECT products.product_name AS name, price, products.id, departments.department_name AS department, departments.id as department_id
-            attributes: [['product_name', 'name'], 'price', 'id', ['department_name', 'department'], ['stock_quantity', 'stock']]
+            attributes: [['product_name', 'name'], 'price', 'id', ['stock_quantity', 'stock']]
         });
+
+        res.json(product);
     });
 
     // Add new products

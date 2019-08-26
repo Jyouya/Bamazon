@@ -7,7 +7,8 @@
             console.log(params.toString());
         });
 
-        // TODO: Read local storage, get how many items are in cart
+        const cart = JSON.parse( localStorage.getItem('cart') || '[]');
+        $('.cart').text(cart.length);
     });
 
 }
