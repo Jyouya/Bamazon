@@ -1,7 +1,7 @@
 module.exports = function (sequelize, DataTypes) {
     const Product = sequelize.define('Product', {
         product_name: DataTypes.STRING,
-        price: DataTypes.DECIMAL(2),
+        price: DataTypes.DECIMAL(7,2),
         stock_quantity: DataTypes.INTEGER
     });
 

@@ -58,6 +58,30 @@
     min-width: 250px;
 }
 
+.cart {
+    position: relative;
+    left: -.75em;
+    top: -.3em;
+    /* text-shadow: inherit -.04em -.04em */
+    color: white;
+    text-shadow: .04em .04em #aaa,
+                .04em .04em .15em #aaa;
+    /* -webkit-text-fill-color: hsl(171, 100%, 41%);
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: white;
+    text-shadow: none; */
+
+    /* color: hsl(171, 100%, 41%); */
+}
+
+.is-horizontal {
+    margin-top: 0;
+}
+
+.is-horizontal:not(:last-child) {
+    margin-bottom: 1em;
+}
+
 @media screen and (max-width: 768px) {
     .navbar-end {
         min-width: initial;

@@ -63,7 +63,14 @@ module.exports = function (app) {
     });
 
     app.get('/api/products/:product', function (req, res) {
-
+        product = await db.Product.findOne({
+            where: {
+                id: req.params.product
+            },
+            include: [db.Department],
+            //SELECT products.product_name AS name, price, products.id, departments.department_name AS department, departments.id as department_id
+            attributes: [['product_name', 'name'], 'price', 'id', ['department_name', 'department'], ['stock_quantity', 'stock']]
+        });
     });
 
     // Add new products
