@@ -39,7 +39,7 @@ $('#add-to-cart').submit(async function(event) {
     event.preventDefault();
     console.log($(this).serialize());
     const subOrder = {
-        id: await product.id,
+        id: (await product).id,
         quantity: $('#qty').val()
     }
     const cart = JSON.parse(localStorage.getItem('cart') || '[]');

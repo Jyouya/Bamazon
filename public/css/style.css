@@ -82,6 +82,23 @@
     margin-bottom: 1em;
 }
 
+#items .card {
+    position: relative;
+}
+
+.delete-item {
+    content: "x";
+    position: absolute;
+    top: -.2rem;
+    right: 1rem;
+    font-size: 2rem;
+    color: #444;
+}
+
+.delete-item:hover {
+    text-shadow: 0 0 20px #444;
+}
+
 @media screen and (max-width: 768px) {
     .navbar-end {
         min-width: initial;
