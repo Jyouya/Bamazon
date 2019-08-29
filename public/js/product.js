@@ -45,4 +45,5 @@ $('#add-to-cart').submit(async function(event) {
     const cart = JSON.parse(localStorage.getItem('cart') || '[]');
     cart.push(subOrder);
     localStorage.setItem('cart', JSON.stringify(cart));
+    updateCart();
 });

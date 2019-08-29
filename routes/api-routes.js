@@ -143,6 +143,8 @@ module.exports = function (app) {
     // Place an order
     app.post('/api/orders', async function (req, res) {
         try {
+            // return console.log(req.body);
+            const data = JSON.parse(req.body);
             const order = await Promise.all(req.body.map(async function (product) {
                 const p = await db.Product.findOne({
                     where: {
@@ -189,7 +191,7 @@ module.exports = function (app) {
 
         } catch (err) {
             console.log(err);
-            res.json(err);
+            res.json({err:err});
         }
     });
 

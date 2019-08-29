@@ -18,8 +18,14 @@
             <a href="/" class="navbar-item brand">
                 <img src="./images/bam.svg" alt="BAM" class="logo">
             </a>
+            <div class="nav-item is-hidden-desktop has-text-right" style="width: 100%;">
+                <a href="./checkout.html" class="checkout"><i class="fas fa-shopping-cart"></i><span
+                        class="cart"></span></a>
+            </div>
         </div>
-        <div class="navbar-menu">
+        <!-- <div class="is-hidden-desktop"> -->
+        <!-- </div> -->
+        <!-- <div class="navbar-menu"> -->
             <div class="navbar-start"></div>
             <form class="navbar-item is-expanded" id="search">
                 <div class="field has-addons">
@@ -45,12 +51,16 @@
                     </p>
                 </div>
             </form>
-            <div class="navbar-end">
-                <div class="nav-item">
-                    <a href="./checkout.html" class="checkout"><i class="fas fa-shopping-cart"></i><span class="cart"></span></a>
+            <div class="navbar-end cart-preview-mo">
+                <div class="nav-item is-hidden-touch">
+                    <a href="./checkout.html" class="checkout"><i class="fas fa-shopping-cart"></i><span
+                            class="cart"></span></a>
+                    <div class="card cart-preview">
+
+                    </div>
                 </div>
             </div>
-        </div>
+        <!-- </div> -->
     </nav>
     <div class="container products">
 

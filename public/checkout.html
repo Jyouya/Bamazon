@@ -13,13 +13,21 @@
 </head>
 
 <body>
-    <nav class="navbar is-primary">
-        <div class="navbar-brand">
-            <a href="/" class="navbar-item brand">
-                <img src="./images/bam.svg" alt="BAM" class="logo">
-            </a>
-        </div>
-        <div class="navbar-menu">
+
+    <body>
+        <nav class="navbar is-primary">
+            <div class="navbar-brand">
+                <a href="/" class="navbar-item brand">
+                    <img src="./images/bam.svg" alt="BAM" class="logo">
+                </a>
+                <div class="nav-item is-hidden-desktop has-text-right" style="width: 100%;">
+                    <a href="./checkout.html" class="checkout"><i class="fas fa-shopping-cart"></i><span
+                            class="cart"></span></a>
+                </div>
+            </div>
+            <!-- <div class="is-hidden-desktop"> -->
+            <!-- </div> -->
+            <!-- <div class="navbar-menu"> -->
             <div class="navbar-start"></div>
             <form class="navbar-item is-expanded" id="search">
                 <div class="field has-addons">
@@ -32,6 +40,7 @@
                                 <option value="3">Electronics</option>
                                 <option value="4">Men's Clothing</option>
                                 <option value="5">Women's Clothing</option>
+                                <!-- populate the rest dynamically -->
                             </select>
                         </span>
 
@@ -40,53 +49,54 @@
                         <input type="text" class="input" placeholder="Search" name="q">
                     </p>
                     <p class="control">
-                        <a class="button"><i class="fas fa-search"></i></a>
+                        <button class="button"><i class="fas fa-search"></i></button>
                     </p>
                 </div>
             </form>
-            <div class="navbar-end">
-                <div class="nav-item">
+            <div class="navbar-end cart-preview-mo">
+                <div class="nav-item is-hidden-touch">
                     <a href="./checkout.html" class="checkout"><i class="fas fa-shopping-cart"></i><span
                             class="cart"></span></a>
+                    <div class="card cart-preview"></div>
                 </div>
             </div>
-        </div>
-    </nav>
-    <div class="container" id="items">
+            <!-- </div> -->
+        </nav>
+        <div class="container" id="items">
 
-    </div>
-    <div class="container">
-        <div class="card columns is-horizontal" id="checkout-bar" style="display: none;">
-            <div class="card-content column is-10"></div>
-            <div class="card-content column is-2">
-                <div class="field is-horizontal">
-                    <div class="field-label">
-                        <label class="label">Total:</label>
+        </div>
+        <div class="container">
+            <div class="card columns is-horizontal" id="checkout-bar" style="display: none;">
+                <div class="card-content column is-10"></div>
+                <div class="card-content column is-2">
+                    <div class="field is-horizontal">
+                        <div class="field-label">
+                            <label class="label">Total:</label>
+                        </div>
+                        <div class="field-body">
+                            <label class="label" id="total"></label>
+                        </div>
                     </div>
-                    <div class="field-body">
-                        <label class="label" id="total"></label>
-                    </div>
-                </div>
-                <div class="field is-horizontal">
-                    <div class="field-label">
-                        <label class="label"></label>
-                    </div>
-                    <div class="field-body">
-                        <div class="control">
-                            <button class="button is-primary" id="checkout">
-                                <i class="fas fa-shopping-cart" aria-hidden="true"></i>Checkout
-                            </button>
+                    <div class="field is-horizontal">
+                        <div class="field-label">
+                            <label class="label"></label>
+                        </div>
+                        <div class="field-body">
+                            <div class="control">
+                                <button class="button is-primary" id="checkout">
+                                    <i class="fas fa-shopping-cart" aria-hidden="true"></i>Checkout
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
-        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
-    <script src="./js/checkout.js"></script>
-    <script src="./js/search.js"></script>
-</body>
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+            integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+        <script src="./js/checkout.js"></script>
+        <script src="./js/search.js"></script>
+    </body>
 
 </html>

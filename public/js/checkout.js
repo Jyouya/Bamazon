@@ -93,10 +93,16 @@ function buildQuantityBox(item, index) {
         )
     }
 
+    qty.children(`option[value="${cart[index].quantity}"]`).prop('selected', true);
+    
+
     qty.change(function (event) {
         // const index = $(this).attr('id')
         $(`#subtotal-${index}`).text((item.price * $(this).val()).toFixed(2));
         // call the function to recalculate the total for the cart as well
+        cart[index].quantity = $(this).val();
+        localStorage.setItem('cart', JSON.stringify(cart));
+        total();
     });
 
     return dom;
@@ -108,8 +114,9 @@ $(document).on('click', '.delete-item', function(event) {
     cart[i] = null;
     const newCart = cart.filter(x => x);
     localStorage.setItem('cart', JSON.stringify(newCart));
-    $('.cart').text(newCart.length);
-    total();
+    // $('.cart').text(newCart.length);
+    updateCart();
+    // TODO: check if cart is empty, hide the checkout box and display the cart empty message.
 });
 
 async function total() {
@@ -117,5 +124,25 @@ async function total() {
     console.log(resItems);
     console.log(cart);
     // TODO: sum is incorrect
-    $('#total').text(cart.reduce((a, item, index) => a + item ? item.quantity * parseFloat(resItems[index].price) : 0 , 0).toFixed(2));
+    $('#total').text(cart.reduce((a, item, index) => a + (item ? item.quantity * parseFloat(resItems[index].price) : 0), 0).toFixed(2));
 }
+
+// Can only be clicked once
+$('#checkout').one('click', async function(event) {
+    const res = await $.ajax({
+        url: './api/orders',
+        contentType: 'application/json',
+        method: 'POST',
+        data: localStorage.getItem('cart')
+    });
+
+    // const res = await $.post('./api/orders', localStorage.getItem('cart'), () => {}, 'application/json');
+    const params = new URLSearchParams();
+    if (res.err) {
+        params.append('err', res.err);
+    } else {
+        params.append('id', res.orderId);
+        localStorage.removeItem('cart');
+    }
+    window.location.href = './order?' + params.toString();
+});
