@@ -32,6 +32,7 @@ Posting a new product requires authentication.
 }
 ```
 
+
 #### PUT
 
 ```json
@@ -43,6 +44,12 @@ Posting a new product requires authentication.
     "department": optional number
 }
 ```
+
+## /api/products/:id
+
+#### GET
+
+Returns the product matching he given id
 
 ## /api/orders
 
