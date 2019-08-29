@@ -14,7 +14,7 @@
 
 * sortDirection - [asc | desc] sort results ascending or descending.  Default descending
 
-* sortBy - [popularity | id | name] how to sort results.  Default popularity
+* sortBy - [popularity | id | name] how to sort results.  Default popularity (only popularity is currently implemented)
 
 * n - number of results to show.  Default 20, Max 50
 

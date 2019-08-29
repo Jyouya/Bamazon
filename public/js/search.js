@@ -26,10 +26,10 @@ async function updateCart() {
                     )
                 ),
                 $('<div class="column is-three-fifths">').append(
-                    $('<h3 class="subtitle is-3">').text(info.name)
+                    $('<h4 class="subtitle is-4">').text(info.name)
                 ),
                 $('<div class="column is-one-fifth">').append(
-                    $('<h3 class="subtitle is-3">').text(item.quantity)
+                    $('<h4 class="subtitle is-4">').text(item.quantity)
                 )
             )
         // )

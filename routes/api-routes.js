@@ -36,7 +36,7 @@ module.exports = function (app) {
                         WHERE orders.createdAt > NOW() - INTERVAL 1 WEEK
                         GROUP BY productorders.productId
                 )
-                SELECT products.product_name AS name, price, products.id, departments.department_name AS department, departments.id as department_id
+                SELECT products.product_name AS name, price, products.id, departments.department_name AS department, departments.id as department_id, products.img as img
                     FROM popularity
                     RIGHT JOIN products
                         ON products.id = popularity.productId
@@ -74,7 +74,7 @@ module.exports = function (app) {
                 }
             ],
             //SELECT products.product_name AS name, price, products.id, departments.department_name AS department, departments.id as department_id
-            attributes: [['product_name', 'name'], 'price', 'id', ['stock_quantity', 'stock']]
+            attributes: [['product_name', 'name'], 'price', 'id', ['stock_quantity', 'stock'], 'img']
         });
 
         res.json(product);
@@ -93,7 +93,8 @@ module.exports = function (app) {
             product_name: req.body.name,
             departmentId: req.body.department,
             price: req.body.price,
-            stock_quantity: req.body.stock || 0
+            stock_quantity: req.body.stock || 0,
+            img: req.body.img
         }));
 
     });
@@ -109,7 +110,7 @@ module.exports = function (app) {
                 product_name: req.body.name,
                 departmentId: req.body.department,
                 price: req.body.price,
-                stock_quantity: req.body.stock || 0
+                stock_quantity: req.body.stock || 0,
             },
             {
                 where: {
@@ -144,7 +145,7 @@ module.exports = function (app) {
     app.post('/api/orders', async function (req, res) {
         try {
             // return console.log(req.body);
-            const data = JSON.parse(req.body);
+            // const data = JSON.parse(req.body);
             const order = await Promise.all(req.body.map(async function (product) {
                 const p = await db.Product.findOne({
                     where: {
