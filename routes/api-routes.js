@@ -31,7 +31,7 @@ module.exports = function (app) {
                         FROM Orders
                         INNER JOIN ProductOrders
                             ON Orders.id = ProductOrders.orderId
-                        JOIN products
+                        JOIN Products
                             ON Products.id = ProductOrders.ProductId
                         WHERE Orders.createdAt > NOW() - INTERVAL 1 WEEK
                         GROUP BY ProductOrders.ProductId
