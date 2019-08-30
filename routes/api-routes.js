@@ -27,26 +27,26 @@ module.exports = function (app) {
         // if (search) {
         out = await db.sequelize.query(
             `WITH popularity AS (
-                    SELECT productorders.productId, SUM(quantity) AS popularity
-                        FROM orders
-                        INNER JOIN productorders
-                            ON orders.id = productorders.orderId
+                    SELECT ProductOrders.ProductId, SUM(quantity) AS popularity
+                        FROM Orders
+                        INNER JOIN ProductOrders
+                            ON Orders.id = ProductOrders.orderId
                         JOIN products
-                            ON products.id = productorders.productId
-                        WHERE orders.createdAt > NOW() - INTERVAL 1 WEEK
-                        GROUP BY productorders.productId
+                            ON Products.id = ProductOrders.ProductId
+                        WHERE Orders.createdAt > NOW() - INTERVAL 1 WEEK
+                        GROUP BY ProductOrders.ProductId
                 )
-                SELECT products.product_name AS name, price, products.id, departments.department_name AS department, departments.id as department_id, products.img as img
+                SELECT Products.product_name AS name, price, Products.id, Departments.department_name AS department, Departments.id as department_id, Products.img as img
                     FROM popularity
-                    RIGHT JOIN products
-                        ON products.id = popularity.productId
-                    JOIN departments
-                        ON products.departmentId = departments.id
-                        ${search ? `WHERE products.product_name LIKE :q
+                    RIGHT JOIN Products
+                        ON Products.id = popularity.productId
+                    JOIN Departments
+                        ON Products.departmentId = Departments.id
+                        ${search ? `WHERE Products.product_name LIKE :q
                             ${options.department ? 'AND' : ''}` : ''}
                         ${options.department ? `${search ? '' : 'WHERE'} 
-                            departments.department_name LIKE :department
-                            OR departments.id = :departmentRaw` : ''}
+                            Departments.department_name LIKE :department
+                            OR Departments.id = :departmentRaw` : ''}
                     ORDER BY popularity ${options.sort.direction}
                     LIMIT :n OFFSET :p`,
             {
